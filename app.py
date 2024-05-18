@@ -10,15 +10,18 @@ client = AsyncOpenAI(
     api_key=st.secrets["API_key"],
 )
 async def generate_exercise_recommendation(level, body_part, difficulty):
-    messages = (
+    prompt_text = (
         f"I am a {level} fitness enthusiast looking to focus on my {body_part} with a {difficulty} difficulty level. "
         f"Please recommend an appropriate exercise."
     )
 
     response = await client.chat.completions.create(
         model="gpt-3.5-turbo",
-        messages=messages,
-        max_tokens=50
+        messages=[
+            {"role": "system", "content": prompt_text},
+            {"role": "assistant", "content": "You are a Gym instructor"}
+        ],
+        
     )
 
     return response.choices[0].message.content
