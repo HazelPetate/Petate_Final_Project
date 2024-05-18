@@ -15,8 +15,8 @@ async def generate_exercise_recommendation(level, body_part, difficulty):
         f"Please recommend an appropriate exercise."
     )
 
-    response = await openai.Completion.create(
-        engine="davinci",
+    response = await client.chat.completions.create(
+        engine="gpt-3.5-turbo",
         prompt=prompt,
         max_tokens=50
     )
